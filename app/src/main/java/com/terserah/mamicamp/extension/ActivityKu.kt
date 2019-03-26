@@ -5,30 +5,31 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.support.v4.app.ActivityCompat
 import android.view.View
+import com.terserah.mamicamp.StevenInteface
 import timber.log.Timber
 
-fun tampilkanme(){
-    Timber.d("Hi, Good Night!!")
+fun tampilkanStevenMalamJumatan(){
+    Timber.d("Hallo steven, Selamat Malam jumatan!")
 }
 
-fun tampilkanyou(){
-    Timber.d("Good Night You")
+fun tampilkanStevenMalamMinggu(){
+    Timber.d("Hallo steven, Selamat Malam mingguan!")
 }
 
-fun tampilanthis(param1: String,param2: String) {
-    Timber.d("parameter satu $param1")
-    Timber.d("parameter dua $param2")
+fun tampilkanStevenBosku(ikiParameterSiji: String, ikiParameterLoro: String){
+    Timber.d("parameter siji $ikiParameterSiji")
+    Timber.d("parameter loro $ikiParameterLoro")
 }
 
 fun Activity.isGrantedLocation(): Boolean {
     return ActivityCompat.checkSelfPermission(this,
-        android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+        android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
 }
 
-fun Context.hmm():String {
-    return "?????"
+fun Context.stevenJahat(): String {
+    return "Iyo ee"
 }
 
-fun View.hmm():Int {
+fun stevenJahat(stevenInteface: StevenInteface): Int {
     return 282
 }

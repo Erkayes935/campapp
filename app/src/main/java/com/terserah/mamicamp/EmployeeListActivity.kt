@@ -7,6 +7,7 @@ import android.view.View
 import com.github.kittinunf.fuel.httpGet
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.terserah.mamicamp.extension.tampilkanStevenBosku
 import com.terserah.mamicamp.pojo.EmployeePojo
 import kotlinx.android.synthetic.main.layout_employe_list.*
 
@@ -21,6 +22,8 @@ class EmployeeListActivity : AppCompatActivity() {
         adapterBebas = EmployeeAdapter(this, datanya)
         recyclerEmployee.adapter = adapterBebas
         getData()
+
+        tampilkanStevenBosku("Seteven lagi makan", "Steven lagi main PES")
     }
 
     private fun getData() {

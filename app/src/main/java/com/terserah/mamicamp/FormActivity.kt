@@ -11,14 +11,15 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.bugsnag.android.Bugsnag
-import com.terserah.mamicamp.extension.hmm
 import com.terserah.mamicamp.extension.isGrantedLocation
-import com.terserah.mamicamp.extension.tampilkanme
-import com.terserah.mamicamp.extension.tampilkanyou
+import com.terserah.mamicamp.extension.stevenJahat
+import com.terserah.mamicamp.extension.tampilkanStevenMalamJumatan
 import com.terserah.mamicamp.network.MamiCampUrl
 import com.terserah.mamicamp.pojo.EmployeSenderPojo
+import com.terserah.mamicamp.pojo.EmployeePojo
 import kotlinx.android.synthetic.main.layout_form.*
 import timber.log.Timber
+import java.util.jar.Manifest
 
 /*
 * 1. Buat Pojo Employee
@@ -29,7 +30,10 @@ import timber.log.Timber
 * 6. Permission (internet)
 * */
 
-class FormActivity : AppCompatActivity() {
+class FormActivity : AppCompatActivity(), StevenInteface {
+    override fun stevenJahat() {
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,22 +50,35 @@ class FormActivity : AppCompatActivity() {
             validateForm()
         }
 
-        tampilkanme()
-        tampilkanyou()
+        checkArray()
 
+        tampilkanStevenMalamJumatan()
 
+        com.terserah.mamicamp.extension.stevenJahat(this)
+    }
+
+    private fun checkArray(){
+        val empl = EmployeePojo("Dedi", "", "")
+        val empi = EmployeePojo("Steven", "", "")
+        val emplArray: MutableList<EmployeePojo> = arrayListOf()
+
+        emplArray.add(0, empl)
+        emplArray.add(1, empi)
+
+        for (dedi in emplArray) {
+            Timber.d("Check for Dedi ${dedi.employeeName}")
+        }
     }
 
     private fun accessLocation() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (isGrantedLocation()) {
-            showRequestPermission()}
-        }
-        else {
-            Timber.d("Android Permission is not Required!!")
+            if (!isGrantedLocation()) {
+                showRequestPermission()
+            }
+        } else {
+            Timber.d("Android permission not required")
         }
     }
-
 
     private fun validateForm() {
 
@@ -101,34 +118,36 @@ class FormActivity : AppCompatActivity() {
     }
 
     private fun showRequestPermission() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this,android.Manifest.permission.ACCESS_FINE_LOCATION)){
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.CAMERA))
+        {
             val alertDialog = AlertDialog.Builder(this)
-            alertDialog.setTitle("Cek Ngga NI??")
+            alertDialog.setTitle("Ceks Dungs .... ")
             alertDialog.setPositiveButton("Ya") { dialog, which ->
-                ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),100)
+                ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.CAMERA), 100)
             }
-            alertDialog.setNegativeButton("Tidak") {dialog, which ->
-                    Toast.makeText(this,"Anda Menolak Permission Lokasi", Toast.LENGTH_SHORT).show()
+            alertDialog.setNegativeButton("Tidak") { dialog, which ->
+                Toast.makeText(this, "Anda menolak permission lokasi", Toast.LENGTH_SHORT).show()
             }
             alertDialog.show()
-        }
-        else {
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),100)
+        } else {
+            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.CAMERA), 100)
         }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         if (requestCode == 100) {
-            for (index in grantResults.indices) {
-                if (grantResults[index] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this,"Diterima",Toast.LENGTH_SHORT).show()
+
+            Timber.d("Check $grantResults")
+            for (index in grantResults) {
+                Timber.d("Check Index $index")
+                if (index == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(this, "Diterima cieeee ", Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(this, "Ditolak!",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Ditolak .....", Toast.LENGTH_SHORT).show()
                     showRequestPermission()
                 }
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
-
 }
